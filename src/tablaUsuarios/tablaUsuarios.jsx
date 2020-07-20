@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import TextField from '@material-ui/core/TextField';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import { toast } from 'react-toastify';
-import { ToastContainer } from 'react-toastify';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { makeStyles } from '@material-ui/core/styles';
 import './tablaUsuarios.css';
@@ -61,6 +55,7 @@ export default function TablaUsuarios() {
   }
   const _onChangeEditRegion = (value) => {
     setEditUser({...editUser, region: { value }})
+    _getRegionById(value);
   }
   const _onChangeEditComuna = (value) => {
     setEditUser({...editUser, commune: { value }})
@@ -157,8 +152,6 @@ export default function TablaUsuarios() {
   };
 
   const _onIdRegion = (id) => {
-    setRegionForm(id);
-    _getRegionById(id);
     _onChangeEditRegion(id)
   };
     
@@ -276,7 +269,7 @@ export default function TablaUsuarios() {
           label="Region"
           variant="outlined"
           defaultValue={editUser.region.value}
-          onChange={e => _onIdRegion(e.target.value)}
+          onChange={e => _onChangeEditRegion(e.target.value)}
         >
            {regiones.map((region) => (
             <MenuItem key={region.value} value={region.value} >
