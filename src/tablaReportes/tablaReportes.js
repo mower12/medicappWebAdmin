@@ -38,6 +38,7 @@ export default function TablaReportes() {
   const [users, setUsers] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [editUser, setEditUser] = useState({region: {value: undefined}, commune: {value: undefined}});
   const [destinatario, setDestinatario] = useState('');
   const [cuerpoMsj, setCuerpoMsj] = useState('');
   const token = qs.parse(getLocalToken()).access_token;
@@ -167,13 +168,13 @@ const activate = async (userId) => {
     console.log(id);
     };
 
-  const _onEnable = (email) => {
-    setDestinatario(email);
-    handleClose(false);
-    setModalVisible(true)
-    console.log('Activar')
-    
-  };
+    const _onSendEmail = (email,user) => {
+      setEditUser(user);
+      setDestinatario(email);
+      handleClose(false);
+      setModalVisible(true)
+      
+    };
   const _onModalUserTo = (user) => {
     handleClose(false);
     setUserModal(user);
@@ -209,7 +210,7 @@ const activate = async (userId) => {
         <TableBody>
 
           {users.map(row => (
-            <TableRow >
+            <TableRow key={row.key} >
               <TableCell component="th" scope="row"><b><Link onClick={() => _onModalUserTo(row.fromUser)} >{row.fromUser.rut}</Link></b></TableCell>
               <TableCell component="th" scope="row"><b><Link onClick={() => _onModalUserTo(row.toUser)} >{row.toUser.rut}</Link></b></TableCell>
               <TableCell component="th" scope="row">{row.message}</TableCell>
@@ -236,7 +237,7 @@ const activate = async (userId) => {
                 }}
               >
               <MenuItem onClick={() => _onActivate(row.toUser.key)}>Deshabilitar</MenuItem>
-              <MenuItem onClick={() => _onEnable(row.toUser.email)}>Enviar correo</MenuItem>
+              <MenuItem onClick={() => _onSendEmail(row.toUser.email,row)}>Enviar correo</MenuItem>
               <MenuItem onClick={() => _onDelete(row.toUser.key)}>Eliminar usuario</MenuItem>
              </Menu>
             </TableRow>
@@ -286,9 +287,6 @@ const activate = async (userId) => {
             <b>Apellido:</b> {userModal.lastName}
             <br/>
             <b>Email:</b> {userModal.email}
-            <br/>
-            <b>Fecha de nacimiento:</b> {moment(userModal.birthDay).format('DD-MM-YYYY')}
-                
           </DialogContentText>
         </DialogContent>
         <DialogActions>

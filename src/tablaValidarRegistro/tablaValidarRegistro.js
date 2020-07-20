@@ -33,6 +33,7 @@ export default function TablaValidarRegistro() {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [users, setUsers] = useState([]);
+  const [editUser, setEditUser] = useState({region: {value: undefined}, commune: {value: undefined}});
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [destinatario, setDestinatario] = useState('');
@@ -159,7 +160,8 @@ const activate = async (userId) => {
     handleClose(false);
     console.log(id);
     };
-  const _onEnable = (email) => {
+  const _onSendEmail = (email,user) => {
+    setEditUser(user);
     setDestinatario(email);
     handleClose(false);
     setModalVisible(true)
@@ -192,7 +194,7 @@ const activate = async (userId) => {
         <TableBody>
 
           {users.map(row => (
-            <TableRow >
+            <TableRow key={row.key} >
               <TableCell component="th" scope="row">{row.rut}</TableCell>
               <TableCell component="th" scope="row">{row.firstName}</TableCell>
               <TableCell component="th" scope="row">{row.lastName}</TableCell>
@@ -224,7 +226,7 @@ const activate = async (userId) => {
                 }}
               >
                 <MenuItem onClick={() => _onActivate(row.key)}>Activar</MenuItem>
-                <MenuItem onClick={() => _onEnable(row.email)}>Enviar correo</MenuItem>
+                <MenuItem onClick={() => _onSendEmail(row.email,row)}>Enviar correo</MenuItem>
                 <MenuItem onClick={() => _onDelete(row.key)}>Eliminar usuario</MenuItem>
               </Menu>
             </TableRow>
@@ -235,10 +237,10 @@ const activate = async (userId) => {
     </Paper>
     <div>
     <Dialog open={modalVisible} onClose={setModalVisible} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Notificar</DialogTitle>
+        <DialogTitle id="form-dialog-title">Notificar </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Enviar notificacion al usuario afectado
+            Enviar correo a <b>{editUser.firstName + ' ' + editUser.lastName}</b>
           </DialogContentText>
           <form >
           <TextField

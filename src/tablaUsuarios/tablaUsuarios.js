@@ -25,17 +25,26 @@ import './tablaUsuarios.css';
 import { getLocalToken } from '../api/auth'
 import qs from 'querystring';
 import axios from 'axios';
+import EditIcon from '@material-ui/icons/Edit';
 
 
 export default function TablaUsuarios() {
   const [modalVisible, setModalVisible] = useState(false);
   const [emailBody, setEmailBody] = useState('');
+  const [idRegion, setIdRegion] = useState('');
   const [regiones, setRegiones] = useState([]);
+  const [comunas, setComunas] = useState([]);
   const [users, setUsers] = useState([]);
+  const [editUser, setEditUser] = useState({region: {value: undefined}, commune: {value: undefined}});
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const token = qs.parse(getLocalToken()).access_token;
   const moment = require('moment');
+  const [emailForm, setEmailForm] = useState('');
+  const [regionForm, setRegionForm] = useState('');
+  const [comunaForm, setComunaForm] = useState('');
+  const [direccionForm, setDireccionForm] = useState('');
+  const [fechaDeNacimientoForm, setFechaDeNacimientoForm] = useState('');
   
 
   const useStyles = makeStyles((theme) => ({
@@ -46,6 +55,19 @@ export default function TablaUsuarios() {
       },
     },
   }));
+
+  const _onChangeEditEmail = (value) => {
+    setEditUser({...editUser, email: value})
+  }
+  const _onChangeEditRegion = (value) => {
+    setEditUser({...editUser, region: value})
+  }
+  const _onChangeEditComuna = (value) => {
+    setEditUser({...editUser, commune: value})
+  }
+  const _onChangeEditDireccion = (value) => {
+    setEditUser({...editUser, address: value})
+  }
 
   const closedModal = () => {
     setModalVisible(false);
@@ -64,9 +86,13 @@ export default function TablaUsuarios() {
     getRegion();
     handleClose(false);
     setModalVisible(true)
-    console.log('Activar')
     
   };
+  const _getRegionById = (idRegion) => {
+    setIdRegion(idRegion);
+    getComuna(idRegion);
+  };
+  
   const getRegion = async () => {
     const headers = {
       withCredentials: true,
@@ -82,6 +108,59 @@ export default function TablaUsuarios() {
     setRegiones(res.data);
     
   }
+  const getComuna = async (idRegion) => {
+    const headers = {
+      withCredentials: true,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    };
+
+    const res = await axios.get(`http://localhost:8080/region/${idRegion}/communes`, headers);
+
+    console.log(res.data)
+    setComunas(res.data);
+    
+  }
+  const _editUser = async () => {
+    const endpoint = `http://localhost:8080/user/${editUser.key}`;
+  
+    const headers = {
+      withCredentials: true,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    };
+  
+    axios.put(endpoint, editUser, headers)
+        .then(result => {
+            toast.success(`Cambio de estado efectuado correctamente`)
+        })
+        .catch(error => {
+            toast.warning('Estamos sufriento un error en nuestro servicio, porfavor reintente mas tarde.')
+        });
+  
+    }
+  const _onEdit = (user) => {
+    getComuna(user.region.value)
+    setEditUser(user);
+    setModalVisible(true);
+    handleClose(false);
+  };
+
+  const _modifiUser = () => {
+    _editUser();
+  };
+
+  const _onIdRegion = (id) => {
+    setRegionForm(id);
+    _getRegionById(id);
+    _onChangeEditRegion(id)
+  };
+    
   useEffect(() => {
 
     const getUsers = async () => {
@@ -103,18 +182,20 @@ export default function TablaUsuarios() {
     }
 
     getUsers()
+    getRegion()
 
     console.log(users)
 
   }, [])
 
     const classes = useStyles();
+    
 
   return (
     <div>
       <center>
       <form noValidate autoComplete="off">
-      <TextField id="standard-basic" label="Buscar usuario" />
+      <TextField id="standard-basic" label="Buscar usuario por Rut" />
       <Button onClick={() => _onEnable()} variant="contained" color="primary">Buscar</Button>
     </form>
     </center>
@@ -131,12 +212,13 @@ export default function TablaUsuarios() {
             <TableCell><b>Comuna</b></TableCell>
             <TableCell><b>Direccion</b></TableCell>
             <TableCell><b>Fecha de nacimiento</b></TableCell>
+            <TableCell><b></b></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
 
           {users.map(row => (
-            <TableRow >
+            <TableRow key={row.key} >
               <TableCell component="th" scope="row">{row.rut}</TableCell>
               <TableCell component="th" scope="row">{row.firstName}</TableCell>
               <TableCell component="th" scope="row">{row.lastName}</TableCell>
@@ -145,6 +227,7 @@ export default function TablaUsuarios() {
               <TableCell component="th" scope="row">{row.commune.label}</TableCell>
               <TableCell component="th" scope="row">{row.address}</TableCell>
               <TableCell component="th" scope="row">{moment(row.birthDay).format('DD-MM-YYYY')}</TableCell>
+              <EditIcon onClick={()=> _onEdit(row)} />
             </TableRow>
           )
           )}
@@ -157,38 +240,40 @@ export default function TablaUsuarios() {
         <DialogTitle id="form-dialog-title">Modificar</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Modificar información del usuario
+            Modificar información del usuario <b>{editUser.firstName + ' ' + editUser.lastName}</b>
           </DialogContentText>
           <form className={classes.root} noValidate autoComplete="off">
           <div>
+
           <TextField
-          required
+          disabled
           id="outlined-required"
           label="Rut"
-          defaultValue=""
+          defaultValue={editUser.rut}
           variant="outlined"
         />
         
         <TextField
-          required
+          disabled
           id="outlined-required"
           label="Nombre"
-          defaultValue=""
+          defaultValue={editUser.firstName}
           variant="outlined"
         />
         
         <TextField
-          required
+          disabled
           id="outlined-required"
           label="Apellido"
-          defaultValue=""
+          defaultValue={editUser.lastName}
           variant="outlined"
         />
         <TextField
           required
           id="outlined-required"
           label="Email"
-          defaultValue=""
+          defaultValue={editUser.email}
+          onChange={(e) => _onChangeEditEmail(e.target.value)}
           variant="outlined"
         />
         <TextField
@@ -196,10 +281,12 @@ export default function TablaUsuarios() {
           select
           label="Region"
           variant="outlined"
+          defaultValue={editUser.region.value}
+          onChange={e => _onIdRegion(e.target.value)}
         >
            {regiones.map((region) => (
-            <MenuItem key={region.value} value={region.value}>
-              {region.label}
+            <MenuItem key={region.value} value={region.value} >
+              {region.label} 
             </MenuItem>
           ))}
         </TextField>
@@ -208,20 +295,31 @@ export default function TablaUsuarios() {
           select
           label="Comuna"
           variant="outlined"
+          defaultValue={editUser.commune.value}
+          onChange={(e) => _onChangeEditComuna(e.target.value)}
+
         >
+          {comunas.map((communes) => (
+            <MenuItem key={communes.value} value={communes.value}>
+              {communes.label}
+            </MenuItem>
+          ))}
         </TextField>
         <TextField
           required
           id="outlined-required"
           label="Dirección"
-          defaultValue=""
+          defaultValue={editUser.address}
+          onChange={(e) => _onChangeEditDireccion(e.target.value)}
           variant="outlined"
         />
         <TextField
           required
           id="outlined-required"
           label="Fecha de nacimiento"
-          defaultValue=""
+          type="date"
+          defaultValue={moment(editUser.birthDay).format('DD-MM-YYYY')}
+          onChange={setFechaDeNacimientoForm}
           variant="outlined"
         />
           </div>
@@ -232,7 +330,7 @@ export default function TablaUsuarios() {
           <Button onClick={closedModal} color="primary">
             Cancel
           </Button>
-          <Button onClick={_onSend} color="primary">
+          <Button onClick={() => _modifiUser()} color="primary">
             Modificar
           </Button>
         </DialogActions>
