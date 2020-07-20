@@ -37,8 +37,6 @@ export default function TablaReportes() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalUser, setModalUser] = useState(false);
   const [users, setUsers] = useState([]);
-  const [anchorEls, setAnchorEls] = useState([]);
-  const open = Boolean(anchorEls);
   const [editUser, setEditUser] = useState({region: {value: undefined}, commune: {value: undefined}});
   const [destinatario, setDestinatario] = useState('');
   const [cuerpoMsj, setCuerpoMsj] = useState('');
@@ -47,21 +45,23 @@ export default function TablaReportes() {
   const [userModal, setUserModal] = useState({});
   const moment = require('moment');
 
+  let anchorEls = [];
+
   const handleClick = (id, event) => {
       let tmp = anchorEls;
       tmp[id] = event.target;
-      setAnchorEls(tmp);
+      anchorEls = (tmp);
   };
 
   const handleClose = (id, event) => {
       if (id === false){
-          setAnchorEls([]);
+          anchorEls = [];
           return;
       }
 
       let tmp = anchorEls;
       tmp[id] = null
-      setAnchorEls(tmp);
+      anchorEls = tmp;
   };
   const closedModal = () => {
     setModalVisible(false);
