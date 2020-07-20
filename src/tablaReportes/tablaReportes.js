@@ -27,6 +27,7 @@ import { ToastContainer } from 'react-toastify';
 import { getLocalToken } from '../api/auth'
 import qs from 'querystring';
 import axios from 'axios';
+import './tablaReportes.css';
 import { Input } from "@material-ui/core";
 import { setToken } from '../api/auth';
 
@@ -251,13 +252,14 @@ const activate = async (userId) => {
         <DialogTitle id="form-dialog-title">Notificar</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Enviar notificacion al usuario afectado
+            Enviar correo a <b>{userModal.firstName + ' ' + userModal.lastName}</b>
           </DialogContentText>
           <form >
           <TextField
             id="notificacion"
             label="Escribir"
             multiline
+            className='textCorreo'
             rows={4}
             variant="outlined"
             onChange={e => setEmailBody(e.target.value)}

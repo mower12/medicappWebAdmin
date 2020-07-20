@@ -24,6 +24,7 @@ import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 import { getLocalToken } from '../api/auth'
 import qs from 'querystring';
+import './tablaValidarRegistro.css';
 import axios from 'axios';
 import { Input } from "@material-ui/core";
 import { setToken } from '../api/auth';
@@ -82,7 +83,7 @@ export default function TablaValidarRegistro() {
 
     const body = {
         email: destinatario,
-        title: 'No ha sido aceptado su registro',
+        title: 'MedicApp - No ha sido aceptado su registro',
         body: emailBody,
     }
 
@@ -247,6 +248,7 @@ const activate = async (userId) => {
             id="notificacion"
             label="Escribir"
             multiline
+            className='textCorreo'
             rows={4}
             variant="outlined"
             onChange={e => setEmailBody(e.target.value)}
