@@ -229,7 +229,7 @@ const activate = async (userId) => {
                 aria-label="more"
                 aria-controls="long-menu"
                 aria-haspopup="true"
-                onClick={e => handleClick(row.id, e)}
+                onClick={e => handleClick(row.key, e)}
               >
                 <MoreVertIcon />
               </IconButton>
