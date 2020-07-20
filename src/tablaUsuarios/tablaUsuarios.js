@@ -60,10 +60,10 @@ export default function TablaUsuarios() {
     setEditUser({...editUser, email: value})
   }
   const _onChangeEditRegion = (value) => {
-    setEditUser({...editUser, region: value})
+    setEditUser({...editUser, region: { value }})
   }
   const _onChangeEditComuna = (value) => {
-    setEditUser({...editUser, commune: value})
+    setEditUser({...editUser, commune: { value }})
   }
   const _onChangeEditDireccion = (value) => {
     setEditUser({...editUser, address: value})
@@ -153,6 +153,7 @@ export default function TablaUsuarios() {
 
   const _modifiUser = () => {
     _editUser();
+    window.location.reload();
   };
 
   const _onIdRegion = (id) => {
@@ -193,13 +194,6 @@ export default function TablaUsuarios() {
 
   return (
     <div>
-      <center>
-      <form noValidate autoComplete="off">
-      <TextField id="standard-basic" label="Buscar usuario por Rut" />
-      <Button onClick={() => _onEnable()} variant="contained" color="primary">Buscar</Button>
-    </form>
-    </center>
-    <br/>
     <Paper>
       <Table>
         <TableHead>
@@ -314,10 +308,9 @@ export default function TablaUsuarios() {
           variant="outlined"
         />
         <TextField
-          required
+          disabled
           id="outlined-required"
           label="Fecha de nacimiento"
-          type="date"
           defaultValue={moment(editUser.birthDay).format('DD-MM-YYYY')}
           onChange={setFechaDeNacimientoForm}
           variant="outlined"

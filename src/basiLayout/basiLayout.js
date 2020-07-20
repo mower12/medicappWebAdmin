@@ -8,6 +8,7 @@ import Link from '@material-ui/core/Link';
 import { logout } from "../api/auth";
 import { makeStyles } from '@material-ui/core/styles';
 import './basicLayout.css';
+import Logo from '../css/images/logoLayout.png';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -72,7 +73,7 @@ export default function Pricing (props){
       <AppBar color="default" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-            MedicApp
+          <img className='imagen' src={Logo}/> 
           </Typography>
           <nav>
             <Link variant="button" color="textPrimary" href="/validarRegistro" className={classes.link}>

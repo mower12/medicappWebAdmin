@@ -13,9 +13,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
+import Logo from '../css/images/logo.PNG';
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 import { setToken } from '../api/auth';
+import './Login.css';
 const qs = require('querystring')
 
 const useStyles = makeStyles((theme) => ({
@@ -87,11 +89,11 @@ export default function SignIn() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
+      
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        
+      <img className='imagenLogin' src={Logo}/>
+        
         <Typography component="h1" variant="h5">
           MedicApp
         </Typography>
