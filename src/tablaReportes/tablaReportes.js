@@ -37,6 +37,8 @@ export default function TablaReportes() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalUser, setModalUser] = useState(false);
   const [users, setUsers] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   const [editUser, setEditUser] = useState({region: {value: undefined}, commune: {value: undefined}});
   const [destinatario, setDestinatario] = useState('');
   const [cuerpoMsj, setCuerpoMsj] = useState('');
@@ -45,23 +47,12 @@ export default function TablaReportes() {
   const [userModal, setUserModal] = useState({});
   const moment = require('moment');
 
-  let anchorEls = [];
-
-  const handleClick = (id, event) => {
-      let tmp = anchorEls;
-      tmp[id] = event.target;
-      anchorEls = (tmp);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = (id, event) => {
-      if (id === false){
-          anchorEls = [];
-          return;
-      }
-
-      let tmp = anchorEls;
-      tmp[id] = null
-      anchorEls = tmp;
+  const handleClose = () => {
+    setAnchorEl(null);
   };
   const closedModal = () => {
     setModalVisible(false);
@@ -229,16 +220,16 @@ const activate = async (userId) => {
                 aria-label="more"
                 aria-controls="long-menu"
                 aria-haspopup="true"
-                onClick={e => handleClick(row.key, e)}
+                onClick={handleClick}
               >
                 <MoreVertIcon />
               </IconButton>
               <Menu
-                id={row.key}
-                anchorEls={anchorEls[row.key]}
+                id="long-menu"
+                anchorEl={anchorEl}
                 keepMounted
-                open={Boolean(anchorEls[row.key])}
-                onClose={e => handleClose(row.key, e)}
+                open={open}
+                onClose={handleClose}
                 PaperProps={{
                   style: {
                     maxHeight: 48 * 4.5,
