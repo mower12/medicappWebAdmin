@@ -47,8 +47,10 @@ export default function TablaReportes() {
   const [userModal, setUserModal] = useState({});
   const moment = require('moment');
 
-  const handleClick = (event) => {
-    setAnchorEls(event.currentTarget);
+  const handleClick = (id, event) => {
+      let tmp = anchorEls;
+      tmp[id] = event.target;
+      setAnchorEls(tmp);
   };
 
   const handleClose = (id, event) => {
@@ -227,7 +229,7 @@ const activate = async (userId) => {
                 aria-label="more"
                 aria-controls="long-menu"
                 aria-haspopup="true"
-                onClick={handleClick}
+                onClick={e => handleClick(row.id, e)}
               >
                 <MoreVertIcon />
               </IconButton>
