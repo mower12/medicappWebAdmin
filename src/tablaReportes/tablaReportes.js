@@ -37,8 +37,8 @@ export default function TablaReportes() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalUser, setModalUser] = useState(false);
   const [users, setUsers] = useState([]);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const [anchorEls, setAnchorEls] = useState([]);
+  const open = Boolean(anchorEls);
   const [editUser, setEditUser] = useState({region: {value: undefined}, commune: {value: undefined}});
   const [destinatario, setDestinatario] = useState('');
   const [cuerpoMsj, setCuerpoMsj] = useState('');
@@ -48,11 +48,18 @@ export default function TablaReportes() {
   const moment = require('moment');
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEls(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleClose = (id, event) => {
+      if (id === false){
+          setAnchorEls([]);
+          return;
+      }
+
+      let tmp = anchorEls;
+      tmp[id] = null
+      setAnchorEls(tmp);
   };
   const closedModal = () => {
     setModalVisible(false);
@@ -225,11 +232,11 @@ const activate = async (userId) => {
                 <MoreVertIcon />
               </IconButton>
               <Menu
-                id="long-menu"
-                anchorEl={anchorEl}
+                id={row.key}
+                anchorEls={anchorEls[row.key]}
                 keepMounted
-                open={open}
-                onClose={handleClose}
+                open={Boolean(anchorEls[row.key])}
+                onClose={e => handleClose(row.key, e)}
                 PaperProps={{
                   style: {
                     maxHeight: 48 * 4.5,
