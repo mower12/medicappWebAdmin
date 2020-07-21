@@ -15,11 +15,14 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import DeleteIcon from '@material-ui/icons/Delete';
+import EmailIcon from '@material-ui/icons/Email';
 import Paper from "@material-ui/core/Paper";
 import Menu from '@material-ui/core/Menu';
 import Link from '@material-ui/core/Link';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
+import ClearIcon from '@material-ui/icons/Clear';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CloseIcon from '@material-ui/icons/Close';
 import { toast } from 'react-toastify';
@@ -60,7 +63,7 @@ export default function TablaReportes() {
   useEffect(() => {
 
     const getUsers = async () => {
-      
+
 
       const headers = {
         withCredentials: true,
@@ -82,7 +85,7 @@ export default function TablaReportes() {
     console.log(users)
 
   }, [])
-  
+
 
   const send = async () => {
     const endpoint = `${host}/email/send`;
@@ -101,7 +104,7 @@ export default function TablaReportes() {
         'Authorization': `Bearer ${token}`
       }
     };
-    
+
 
     axios.post(endpoint, body, headers)
         .then(result => {
@@ -138,7 +141,7 @@ const activate = async (userId) => {
 
   const deleteUser = (userId) => {
     const endpoint = `${host}/user/${userId}`;
-  
+
     const headers = {
       withCredentials: true,
       headers: {
@@ -146,7 +149,7 @@ const activate = async (userId) => {
         'Authorization': `Bearer ${token}`
       }
     };
-  
+
     axios.delete(endpoint, headers)
         .then(result => {
             toast.success(`Se ha eliminado usuario correctamente`)
@@ -154,7 +157,7 @@ const activate = async (userId) => {
         .catch(error => {
             toast.warning('Estamos sufriento un error en nuestro servicio, porfavor reintente mas tarde.')
         });
-  
+
     }
 
   const _onActivate = (id) => {
@@ -174,30 +177,30 @@ const activate = async (userId) => {
       setDestinatario(email);
       handleClose(false);
       setModalVisible(true)
-      
+
     };
   const _onModalUserTo = (user) => {
     handleClose(false);
     setUserModal(user);
     setModalUser(true);
-    
-    
+
+
   };
   const _onCloseModalUser = () => {
     handleClose(false);
     setModalUser(false)
-    
-    
+
+
   };
-  
+
   const _onSend = () => {
       send();
       setModalVisible(false)
   };
-  
+
   return (
     <div>
-      
+
     <Paper>
       <Table>
         <TableHead>
@@ -216,31 +219,9 @@ const activate = async (userId) => {
               <TableCell component="th" scope="row"><b><Link onClick={() => _onModalUserTo(row.toUser)} >{row.toUser.rut}</Link></b></TableCell>
               <TableCell component="th" scope="row">{row.message}</TableCell>
               <TableCell component="th" scope="row">{moment(row.date).format('DD-MM-YYYY HH:MM')}</TableCell>
-             <IconButton
-                aria-label="more"
-                aria-controls="long-menu"
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: 48 * 4.5,
-                    width: '20ch',
-                  },
-                }}
-              >
-              <MenuItem onClick={() => _onActivate(row.toUser.key)}>Deshabilitar</MenuItem>
-              <MenuItem onClick={() => _onSendEmail(row.toUser.email,row)}>Enviar correo</MenuItem>
-              <MenuItem onClick={() => _onDelete(row.toUser.key)}>Eliminar usuario</MenuItem>
-             </Menu>
+              <ClearIcon onClick={() => _onActivate(row.toUser.key)}>Deshabilitar</ClearIcon>
+              <EmailIcon onClick={() => _onSendEmail(row.toUser.email,row)}>Enviar correo</EmailIcon>
+              <DeleteIcon onClick={() => _onDelete(row.toUser.key)}>Eliminar usuario</DeleteIcon>
             </TableRow>
           )
           )}

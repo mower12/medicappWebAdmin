@@ -29,6 +29,10 @@ import axios from 'axios';
 import { Input } from "@material-ui/core";
 import { setToken } from '../api/auth';
 import { host } from "../core/environment";
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EmailIcon from '@material-ui/icons/Email';
+import CheckIcon from '@material-ui/icons/Check';
 
 export default function TablaValidarRegistro() {
 
@@ -54,7 +58,7 @@ export default function TablaValidarRegistro() {
   useEffect(() => {
 
     const getUsers = async () => {
-      
+
 
       const headers = {
         withCredentials: true,
@@ -76,7 +80,7 @@ export default function TablaValidarRegistro() {
     console.log(users)
 
   }, [])
-  
+
 
   const send = async () => {
     const endpoint = `${host}/email/send`;
@@ -95,7 +99,7 @@ export default function TablaValidarRegistro() {
         'Authorization': `Bearer ${token}`
       }
     };
-    
+
 
     axios.post(endpoint, body, headers)
         .then(result => {
@@ -132,7 +136,7 @@ const activate = async (userId) => {
 
   const deleteUser = (userId) => {
     const endpoint = `${host}/user/${userId}`;
-  
+
     const headers = {
       withCredentials: true,
       headers: {
@@ -140,7 +144,7 @@ const activate = async (userId) => {
         'Authorization': `Bearer ${token}`
       }
     };
-  
+
     axios.delete(endpoint, headers)
         .then(result => {
             toast.success(`Se ha eliminado usuario correctamente`)
@@ -148,7 +152,7 @@ const activate = async (userId) => {
         .catch(error => {
             toast.warning('Estamos sufriento un error en nuestro servicio, porfavor reintente mas tarde.')
         });
-  
+
     }
 
   const _onActivate = (id) => {
@@ -167,14 +171,14 @@ const activate = async (userId) => {
     handleClose(false);
     setModalVisible(true)
     console.log('Activar')
-    
+
   };
-  
+
   const _onSend = () => {
       send();
       setModalVisible(false)
   };
-  
+
   return (
     <div>
     <Paper>
@@ -205,31 +209,9 @@ const activate = async (userId) => {
               <TableCell component="th" scope="row"><a href={row.profileImage}><img src={LogoDescarga}/></a></TableCell>
               <TableCell component="th" scope="row"><a href={row.titleImage}><img  src={LogoDescarga}/></a></TableCell>
               <TableCell component="th" scope="row">{row.enabled ? "HABILITADO" : "DESHABILITADO"}</TableCell>
-              <IconButton
-                aria-label="more"
-                aria-controls="long-menu"
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <MoreVertIcon />
-              </IconButton>
-              <Menu
-                id="long-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={open}
-                onClose={handleClose}
-                PaperProps={{
-                  style: {
-                    maxHeight: 48 * 4.5,
-                    width: '20ch',
-                  },
-                }}
-              >
-                <MenuItem onClick={() => _onActivate(row.key)}>Activar</MenuItem>
-                <MenuItem onClick={() => _onSendEmail(row.email,row)}>Enviar correo</MenuItem>
-                <MenuItem onClick={() => _onDelete(row.key)}>Eliminar usuario</MenuItem>
-              </Menu>
+              <CheckIcon onClick={() => _onActivate(row.key)}>Activar</CheckIcon>
+              <EmailIcon onClick={() => _onSendEmail(row.email,row)}>Enviar correo</EmailIcon>
+              <DeleteIcon onClick={() => _onDelete(row.key)}>Eliminar usuario</DeleteIcon>
             </TableRow>
           )
           )}
