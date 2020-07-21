@@ -54,6 +54,8 @@ export default function TablaReportes() {
     setAnchorEl(event.currentTarget);
   };
 
+  const pointer = {cursor: 'pointer'};
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -219,9 +221,9 @@ const activate = async (userId) => {
               <TableCell component="th" scope="row"><b><Link onClick={() => _onModalUserTo(row.toUser)} >{row.toUser.rut}</Link></b></TableCell>
               <TableCell component="th" scope="row">{row.message}</TableCell>
               <TableCell component="th" scope="row">{moment(row.date).format('DD-MM-YYYY HH:MM')}</TableCell>
-              <ClearIcon onClick={() => _onActivate(row.toUser.key)}>Deshabilitar</ClearIcon>
-              <EmailIcon onClick={() => _onSendEmail(row.toUser.email,row)}>Enviar correo</EmailIcon>
-              <DeleteIcon onClick={() => _onDelete(row.toUser.key)}>Eliminar usuario</DeleteIcon>
+              <ClearIcon style={pointer} onClick={() => _onActivate(row.toUser.key)}>Deshabilitar</ClearIcon>
+              <EmailIcon style={pointer} onClick={() => _onSendEmail(row.toUser.email,row)}>Enviar correo</EmailIcon>
+              <DeleteIcon style={pointer} onClick={() => _onDelete(row.toUser.key)}>Eliminar usuario</DeleteIcon>
             </TableRow>
           )
           )}

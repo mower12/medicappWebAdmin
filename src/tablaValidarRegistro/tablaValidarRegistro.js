@@ -33,6 +33,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EmailIcon from '@material-ui/icons/Email';
 import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from "@material-ui/icons/Clear";
 
 export default function TablaValidarRegistro() {
 
@@ -44,6 +45,8 @@ export default function TablaValidarRegistro() {
   const [destinatario, setDestinatario] = useState('');
   const token = qs.parse(getLocalToken()).access_token;
   const [emailBody, setEmailBody] = useState('');
+
+  const pointer = {cursor: 'pointer'};
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -209,9 +212,9 @@ const activate = async (userId) => {
               <TableCell component="th" scope="row"><a href={row.profileImage}><img src={LogoDescarga}/></a></TableCell>
               <TableCell component="th" scope="row"><a href={row.titleImage}><img  src={LogoDescarga}/></a></TableCell>
               <TableCell component="th" scope="row">{row.enabled ? "HABILITADO" : "DESHABILITADO"}</TableCell>
-              <CheckIcon onClick={() => _onActivate(row.key)}>Activar</CheckIcon>
-              <EmailIcon onClick={() => _onSendEmail(row.email,row)}>Enviar correo</EmailIcon>
-              <DeleteIcon onClick={() => _onDelete(row.key)}>Eliminar usuario</DeleteIcon>
+              <CheckIcon style={pointer} onClick={() => _onActivate(row.key)}>Activar</CheckIcon>
+              <EmailIcon style={pointer} onClick={() => _onSendEmail(row.email,row)}>Enviar correo</EmailIcon>
+              <DeleteIcon style={pointer} onClick={() => _onDelete(row.key)}>Eliminar usuario</DeleteIcon>
             </TableRow>
           )
           )}
