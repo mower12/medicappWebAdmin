@@ -30,7 +30,7 @@ import axios from 'axios';
 import './tablaReportes.css';
 import { Input } from "@material-ui/core";
 import { setToken } from '../api/auth';
-
+import { host } from "../core/environment";
 
 export default function TablaReportes() {
 
@@ -70,7 +70,7 @@ export default function TablaReportes() {
         }
       };
 
-      const res = await axios.get('http://localhost:8080/report', headers);
+      const res = await axios.get(`${host}/report`, headers);
 
       console.log(res.data)
 
@@ -85,7 +85,7 @@ export default function TablaReportes() {
   
 
   const send = async () => {
-    const endpoint = 'http://localhost:8080/email/send';
+    const endpoint = `${host}/email/send`;
 
     const body = {
         email: destinatario,
@@ -116,7 +116,7 @@ export default function TablaReportes() {
 }
 
 const activate = async (userId) => {
-  const endpoint = `http://localhost:8080/user/${userId}/disable`;
+  const endpoint = `${host}/user/${userId}/disable`;
 
   const headers = {
     withCredentials: true,
@@ -137,7 +137,7 @@ const activate = async (userId) => {
   }
 
   const deleteUser = (userId) => {
-    const endpoint = `http://localhost:8080/user/${userId}`;
+    const endpoint = `${host}/user/${userId}`;
   
     const headers = {
       withCredentials: true,
@@ -202,8 +202,8 @@ const activate = async (userId) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell><b>Rut del usuario reportado</b></TableCell>
-            <TableCell><b>Rut del usuario que reporta</b></TableCell>
+            <TableCell><b>Usuario que reporta</b></TableCell>
+            <TableCell><b>Usuario reportado</b></TableCell>
             <TableCell><b>Mensaje</b></TableCell>
             <TableCell><b>Fecha de registro</b></TableCell>
           </TableRow>
@@ -252,7 +252,7 @@ const activate = async (userId) => {
         <DialogTitle id="form-dialog-title">Notificar</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Enviar correo a <b>{userModal.firstName + ' ' + userModal.lastName}</b>
+            Enviar correo
           </DialogContentText>
           <form >
           <TextField

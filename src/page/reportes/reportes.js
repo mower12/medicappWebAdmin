@@ -5,7 +5,7 @@ export default function reportes (){
     return(
         
         <BasicLayout>
-            <h1>Reporte de usuarios</h1>
+            <h2>Reporte de usuarios</h2>
         <TablaReportes>
 
         </TablaReportes>

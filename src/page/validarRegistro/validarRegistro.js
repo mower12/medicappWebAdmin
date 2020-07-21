@@ -9,7 +9,7 @@ const ValidarUsuario = () => {
 
     return(
         <BasicLayout>
-            <h1>Paramédicos pendientes de validación</h1>
+            <h2>Paramédicos pendientes de validación</h2>
         <TablaValidarRegistro />
         </BasicLayout> 
     )

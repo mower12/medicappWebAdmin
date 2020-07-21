@@ -13,11 +13,14 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
-import Logo from '../css/images/logo.PNG';
+import Logo from '../../css/images/logo.PNG';
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
-import { setToken } from '../api/auth';
+import { setToken } from '../../api/auth';
 import './Login.css';
+import { host } from "../../core/environment";
+
+
 const qs = require('querystring')
 
 const useStyles = makeStyles((theme) => ({
@@ -47,7 +50,7 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
 
   const login = async () => {
-    const endpoint = 'http://localhost:8080/auth/login';
+    const endpoint = `${host}/auth/login`;
 
     const body = {
         username: email,

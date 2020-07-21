@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Login from "./login/Login";
+import Login from "./page/login/Login.js";
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from './utils/contexts';
 import { ToastContainer } from 'react-toastify';

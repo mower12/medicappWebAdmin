@@ -5,7 +5,7 @@ export default function usuarios (){
     return(
         
         <BasicLayout>
-            <h1>Usuarios registrados</h1>
+            <h2>Usuarios registrados</h2>
         <TablaUsuarios>
             
         </TablaUsuarios>

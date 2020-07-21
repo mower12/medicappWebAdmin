@@ -28,7 +28,7 @@ import './tablaValidarRegistro.css';
 import axios from 'axios';
 import { Input } from "@material-ui/core";
 import { setToken } from '../api/auth';
-
+import { host } from "../core/environment";
 
 export default function TablaValidarRegistro() {
 
@@ -64,7 +64,7 @@ export default function TablaValidarRegistro() {
         }
       };
 
-      const res = await axios.get('http://localhost:8080/user/disabled', headers);
+      const res = await axios.get(`${host}/user/disabled`, headers);
 
       console.log(res.data)
 
@@ -79,7 +79,7 @@ export default function TablaValidarRegistro() {
   
 
   const send = async () => {
-    const endpoint = 'http://localhost:8080/email/send';
+    const endpoint = `${host}/email/send`;
 
     const body = {
         email: destinatario,
@@ -110,7 +110,7 @@ export default function TablaValidarRegistro() {
 }
 
 const activate = async (userId) => {
-  const endpoint = `http://localhost:8080/user/${userId}/enable`;
+  const endpoint = `${host}/user/${userId}/enable`;
 
   const headers = {
     withCredentials: true,
@@ -131,7 +131,7 @@ const activate = async (userId) => {
   }
 
   const deleteUser = (userId) => {
-    const endpoint = `http://localhost:8080/user/${userId}`;
+    const endpoint = `${host}/user/${userId}`;
   
     const headers = {
       withCredentials: true,

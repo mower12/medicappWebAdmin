@@ -20,7 +20,7 @@ import { getLocalToken } from '../api/auth'
 import qs from 'querystring';
 import axios from 'axios';
 import EditIcon from '@material-ui/icons/Edit';
-
+import { host } from "../core/environment";
 
 export default function TablaUsuarios() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -97,7 +97,7 @@ export default function TablaUsuarios() {
       }
     };
 
-    const res = await axios.get('http://localhost:8080/region', headers);
+    const res = await axios.get(`${host}/region`, headers);
 
     console.log(res.data)
     setRegiones(res.data);
@@ -112,14 +112,14 @@ export default function TablaUsuarios() {
       }
     };
 
-    const res = await axios.get(`http://localhost:8080/region/${idRegion}/communes`, headers);
+    const res = await axios.get(`${host}/region/${idRegion}/communes`, headers);
 
     console.log(res.data)
     setComunas(res.data);
     
   }
   const _editUser = async () => {
-    const endpoint = `http://localhost:8080/user/${editUser.key}`;
+    const endpoint = `${host}/user/${editUser.key}`;
   
     const headers = {
       withCredentials: true,
@@ -168,7 +168,7 @@ export default function TablaUsuarios() {
         }
       };
 
-      const res = await axios.get('http://localhost:8080/user', headers);
+      const res = await axios.get(`${host}/user`, headers);
 
       console.log(res.data)
 
