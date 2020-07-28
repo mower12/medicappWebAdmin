@@ -33,6 +33,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EmailIcon from '@material-ui/icons/Email';
 import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from "@material-ui/icons/Clear";
 
 export default function TablaValidarRegistro() {
 
@@ -44,6 +45,8 @@ export default function TablaValidarRegistro() {
   const [destinatario, setDestinatario] = useState('');
   const token = qs.parse(getLocalToken()).access_token;
   const [emailBody, setEmailBody] = useState('');
+
+  const pointer = {cursor: 'pointer'};
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

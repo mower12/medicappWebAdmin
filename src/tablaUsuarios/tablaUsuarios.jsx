@@ -40,7 +40,8 @@ export default function TablaUsuarios() {
   const [comunaForm, setComunaForm] = useState('');
   const [direccionForm, setDireccionForm] = useState('');
   const [fechaDeNacimientoForm, setFechaDeNacimientoForm] = useState('');
-  
+
+  const pointer = {cursor: 'pointer'};
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -82,13 +83,13 @@ export default function TablaUsuarios() {
     getRegion();
     handleClose(false);
     setModalVisible(true)
-    
+
   };
   const _getRegionById = (idRegion) => {
     setIdRegion(idRegion);
     getComuna(idRegion);
   };
-  
+
   const getRegion = async () => {
     const headers = {
       withCredentials: true,
@@ -102,7 +103,7 @@ export default function TablaUsuarios() {
 
     console.log(res.data)
     setRegiones(res.data);
-    
+
   }
   const getComuna = async (idRegion) => {
     const headers = {
@@ -117,11 +118,11 @@ export default function TablaUsuarios() {
 
     console.log(res.data)
     setComunas(res.data);
-    
+
   }
   const _editUser = async () => {
     const endpoint = `${host}/user/${editUser.key}`;
-  
+
     const headers = {
       withCredentials: true,
       headers: {
@@ -130,7 +131,7 @@ export default function TablaUsuarios() {
         'Authorization': `Bearer ${token}`
       }
     };
-  
+
     axios.put(endpoint, editUser, headers)
         .then(result => {
             toast.success(`Cambio de estado efectuado correctamente`)
@@ -138,7 +139,7 @@ export default function TablaUsuarios() {
         .catch(error => {
             toast.warning('Estamos sufriento un error en nuestro servicio, porfavor reintente mas tarde.')
         });
-  
+
     }
   const _onEdit = (user) => {
     getComuna(user.region.value)
@@ -155,7 +156,7 @@ export default function TablaUsuarios() {
   const _onIdRegion = (id) => {
     _onChangeEditRegion(id)
   };
-    
+
   useEffect(() => {
 
     const getUsers = async () => {
@@ -184,7 +185,7 @@ export default function TablaUsuarios() {
   }, [])
 
     const classes = useStyles();
-    
+
 
   return (
     <div>
@@ -240,7 +241,7 @@ export default function TablaUsuarios() {
           defaultValue={editUser.rut}
           variant="outlined"
         />
-        
+
         <TextField
           disabled
           id="outlined-required"
@@ -248,7 +249,7 @@ export default function TablaUsuarios() {
           defaultValue={editUser.firstName}
           variant="outlined"
         />
-        
+
         <TextField
           disabled
           id="outlined-required"
@@ -274,7 +275,7 @@ export default function TablaUsuarios() {
         >
            {regiones.map((region) => (
             <MenuItem key={region.value} value={region.value} >
-              {region.label} 
+              {region.label}
             </MenuItem>
           ))}
         </TextField>
@@ -311,7 +312,7 @@ export default function TablaUsuarios() {
         />
           </div>
         </form>
-            
+
         </DialogContent>
         <DialogActions>
           <Button onClick={closedModal} color="primary">

@@ -54,6 +54,8 @@ export default function TablaReportes() {
     setAnchorEl(event.currentTarget);
   };
 
+  const pointer = {cursor: 'pointer'};
+
   const handleClose = () => {
     setAnchorEl(null);
   };
