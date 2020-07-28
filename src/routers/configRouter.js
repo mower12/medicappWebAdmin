@@ -1,5 +1,3 @@
-
-import Home from '../page/home';
 import validarRegistro from '../page/validarRegistro';
 import reportes from '../page/reportes';
 import usuarios from '../page/usuarios';

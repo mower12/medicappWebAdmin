@@ -219,9 +219,9 @@ const activate = async (userId) => {
               <TableCell component="th" scope="row"><b><Link onClick={() => _onModalUserTo(row.toUser)} >{row.toUser.rut}</Link></b></TableCell>
               <TableCell component="th" scope="row">{row.message}</TableCell>
               <TableCell component="th" scope="row">{moment(row.date).format('DD-MM-YYYY HH:MM')}</TableCell>
-              <ClearIcon onClick={() => _onActivate(row.toUser.key)}>Deshabilitar</ClearIcon>
-              <EmailIcon onClick={() => _onSendEmail(row.toUser.email,row)}>Enviar correo</EmailIcon>
-              <DeleteIcon onClick={() => _onDelete(row.toUser.key)}>Eliminar usuario</DeleteIcon>
+              <IconButton title="Habilitar" aria-label="Habilitar"><ClearIcon onClick={() => _onActivate(row.toUser.key)}>Deshabilitar</ClearIcon></IconButton>
+              <IconButton title="Enviar correo" aria-label="Enviar correo"><EmailIcon onClick={() => _onSendEmail(row.toUser.email,row)}>Enviar correo</EmailIcon></IconButton>
+              <IconButton title="Eliminar" aria-label="Eliminar"><DeleteIcon onClick={() => _onDelete(row.toUser.key)}>Eliminar usuario</DeleteIcon></IconButton>
             </TableRow>
           )
           )}

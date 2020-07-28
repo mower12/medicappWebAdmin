@@ -209,9 +209,9 @@ const activate = async (userId) => {
               <TableCell component="th" scope="row"><a href={row.profileImage}><img src={LogoDescarga}/></a></TableCell>
               <TableCell component="th" scope="row"><a href={row.titleImage}><img  src={LogoDescarga}/></a></TableCell>
               <TableCell component="th" scope="row">{row.enabled ? "HABILITADO" : "DESHABILITADO"}</TableCell>
-              <CheckIcon onClick={() => _onActivate(row.key)}>Activar</CheckIcon>
-              <EmailIcon onClick={() => _onSendEmail(row.email,row)}>Enviar correo</EmailIcon>
-              <DeleteIcon onClick={() => _onDelete(row.key)}>Eliminar usuario</DeleteIcon>
+              <IconButton title="Habilitar" aria-label="Habilitar"><CheckIcon onClick={() => _onActivate(row.key)}>Activar</CheckIcon></IconButton>
+              <IconButton title="Enviar correo" aria-label="Enviar correo"><EmailIcon onClick={() => _onSendEmail(row.email,row)}>Enviar correo</EmailIcon></IconButton>
+              <IconButton title="Eliminar" aria-label="Eliminar"><DeleteIcon onClick={() => _onDelete(row.key)}>Eliminar usuario</DeleteIcon></IconButton>
             </TableRow>
           )
           )}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Table from "@material-ui/core/Table";
+import IconButton from '@material-ui/core/IconButton';
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
@@ -214,7 +215,7 @@ export default function TablaUsuarios() {
               <TableCell component="th" scope="row">{row.commune.label}</TableCell>
               <TableCell component="th" scope="row">{row.address}</TableCell>
               <TableCell component="th" scope="row">{moment(row.birthDay).format('DD-MM-YYYY')}</TableCell>
-              <EditIcon onClick={()=> _onEdit(row)} />
+              <IconButton title="Editar" aria-label="Editar"><EditIcon onClick={()=> _onEdit(row)} /></IconButton>
             </TableRow>
           )
           )}

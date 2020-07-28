@@ -8,8 +8,8 @@ import Link from '@material-ui/core/Link';
 import { logout } from "../api/auth";
 import { makeStyles } from '@material-ui/core/styles';
 import './basicLayout.css';
+import Avatar from '@material-ui/core/Avatar';
 import Logo from '../css/images/logoLayout.png';
-
 
 const useStyles = makeStyles((theme) => ({
     
@@ -89,6 +89,7 @@ export default function Pricing (props){
           <Button href="" onClick={logoutApi} color="primary" variant="outlined" className={classes.link}>
             Cerrar sesion
           </Button>
+          <Avatar>A</Avatar>
         </Toolbar>
       </AppBar>
       <div className= {classes.offset}></div>

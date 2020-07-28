@@ -19,11 +19,21 @@ import { ToastContainer } from 'react-toastify';
 import { setToken } from '../../api/auth';
 import './Login.css';
 import { host } from "../../core/environment";
-
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import jwtDecode from 'jwt-decode';
 
 const qs = require('querystring')
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 600,
+  },
+  media: {
+    height: 300,
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -41,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  
 }));
 
 export default function SignIn() {
@@ -69,7 +80,18 @@ export default function SignIn() {
 
     return await axios.post(endpoint, qs.stringify(body), headers)
         .then(result => {
+
+            const claims = jwtDecode(qs.stringify(result.data));
+
+            console.log('authorities: ' +  claims.authorities);
+
+            if (!claims.authorities.includes('ROLE_ADMIN')) {
+              toast.error('El usuario ingresado no tiene acceso a esta area.')
+              return;
+            }
+
             toast.success(`Logeado correctamente`)
+
             setToken(qs.stringify(result.data));
             window.location.reload();
         })
@@ -91,12 +113,10 @@ export default function SignIn() {
   };
 
   return (
+   
     <Container component="main" maxWidth="xs">
-      
       <div className={classes.paper}>
-        
       <img className='imagenLogin' src={Logo}/>
-        
         <Typography component="h1" variant="h5">
           MedicApp
         </Typography>
@@ -135,7 +155,7 @@ export default function SignIn() {
           </Button>
         </form>
       </div> 
-     
     </Container>
+    
   );
 }
